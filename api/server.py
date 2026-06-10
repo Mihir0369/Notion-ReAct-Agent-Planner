@@ -26,7 +26,7 @@ async def startup_event():
         pass
 
 class ChatRequest(BaseModel):
-    message: str
+    messages: str
     history: Optional[List[Dict[str, Any]]] = None
 
 @app.post("/chat")
@@ -36,11 +36,11 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail="Agent not initialized")
 
     try:
-        response = agent.invoke({"messages": [("user", request.message)]})
-        if isinstance(response, dict) and "message" in response:
-            message = response["message"]
-            if message:
-                last_msg = message[-1]
+        response = agent.invoke({"messages": [("user", request.messages)]})
+        if isinstance(response, dict) and "messages" in response:
+            messages = response["messages"]
+            if messages:
+                last_msg = messages[-1]
                 return {"response": last_msg.content}
     
     except Exception as e:

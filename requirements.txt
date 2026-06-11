@@ -1,0 +1,8 @@
+langchain
+langchain-groq
+langchain-openai
+langchain-core
+fastapi
+uvicorn
+python-dotenv
+requests

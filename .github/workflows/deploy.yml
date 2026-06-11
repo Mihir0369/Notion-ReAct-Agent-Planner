@@ -58,16 +58,17 @@ jobs:
                     docker stop react-agent-planner || true
                     docker rm react-agent-planner || true
 
-                    IMAGE_TAG=ghcr.io/${{ github.repository}}:main
+                    RAW_TAG="ghcr.io/${{ github.repository}}:main"
+                    IMAGE_TAG=$(echo "$RAW_TAG" | tr '[:upper:]' '[:lower:]')
                     docker pull $IMAGE_TAG
 
-                    docker run -d \
-                     --name react-agent-planner \
-                     -p 8000:8000 \
-                     --restart unless-stopped \
-                     -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
-                     -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
-                     -e NOTION_API_KEY=${{ secrets.NOTION_API_KEY }} \
-                     -e NOTION_CALENDAR_DB_ID=${{ secrets.NOTION_CALENDAR_DB_ID }} \
-                     -e NOTION_NOTES_DB_ID=${{ secrets.NOTION_NOTES_DB_ID }} \
-                     $IMAGE_TAG
+                    docker run -d \\
+                      --name react-agent-planner \\
+                      -p 8000:8000 \\
+                      --restart unless-stopped \\
+                      -e GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \\
+                      -e OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \\
+                      -e NOTION_API_KEY="${{ secrets.NOTION_API_KEY }}" \\
+                      -e NOTION_CALENDAR_DB_ID="${{ secrets.NOTION_CALENDAR_DB_ID }}" \\
+                      -e NOTION_NOTES_DB_ID="${{ secrets.NOTION_NOTES_DB_ID }}" \\
+                      $IMAGE_TAG

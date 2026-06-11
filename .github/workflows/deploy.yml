@@ -48,7 +48,7 @@ jobs:
             - name: Checkout repository
               uses: appleboy/ssh-action@v1.1.0
               with:
-                host: ${{ secrets.AWS_HOST }}
+                host: ${{ secrets.HOST }}
                 username: ${{ secrets.USERNAME }}
                 key: ${{ secrets.SSH_KEY }}
 

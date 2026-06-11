@@ -30,15 +30,36 @@ It can answer questions and use tools for weather, Notion notes, and Notion cale
 
 ## Project Structure
 
-- `main.py` - starts the server
-- `api/server.py` - FastAPI app and routes
-- `agent/bot.py` - LLM and agent setup
-- `tools/weather.py` - weather tool
-- `tools/notion_notes.py` - notes tools
-- `tools/notion_calender.py` - calendar tools
-- `scripts/setup_notion_databases.py` - Notion DB setup helper
-- `static/` - frontend assets
-- `Dockerfile` / `docker-compose.yml` - container setup
+```text
+ReAct Agent Planner/
+|-- agent/
+|   `-- bot.py                       # LLM and ReAct agent setup
+|-- api/
+|   `-- server.py                    # FastAPI app and API routes
+|-- scripts/
+|   |-- setup_notion_databases.py    # Notion database bootstrap helper
+|   `-- test_agent.py                # Local agent test script
+|-- static/
+|   |-- index.html                   # Frontend markup
+|   |-- script.js                    # Frontend logic
+|   `-- style.css                    # Frontend styles
+|-- tools/
+|   |-- notion_calender.py           # Notion calendar tools
+|   |-- notion_notes.py              # Notion notes tools
+|   `-- weather.py                   # Weather tool (Open-Meteo)
+|-- utils/
+|   `-- logger.py                    # Logging helper
+|-- .github/
+|   `-- workflows/
+|       `-- deploy.yml               # CI/CD deploy workflow
+|-- docker-compose.yml               # Local container orchestration
+|-- Dockerfile                       # App image build
+|-- main.py                          # App entrypoint (runs Uvicorn)
+|-- pyproject.toml                   # Project metadata and dependencies
+|-- requirements.txt                 # pip dependency list
+|-- README.md                        # Project documentation
+`-- LICENSE                          # MIT license
+```
 
 ## Quick Start
 

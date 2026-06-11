@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER:-user}/react-agent-planner:latest
+    container_name: react-agent-planner
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - .:/app

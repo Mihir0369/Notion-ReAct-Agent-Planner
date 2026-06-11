@@ -3,10 +3,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
-from agent.bot import make_agent
+from agent.bot import create_react_agent_custom
 from utils.logger import get_logger
-from tools.notion_calender import get_calender_events, add_calender_event
-from tools.notion_notes import get_notion_notes, add_notion_note
+from tools.notion_calender import get_calendar_events, add_calendar_event
+from tools.notion_notes import get_notes, add_note
 
 logger = get_logger(__name__)
 
@@ -28,7 +28,7 @@ agent = None
 async def startup_event():
     global agent
     try:
-        agent = make_agent()
+        agent = create_react_agent_custom()
         logger.info("Agent initialized in API")
     except Exception as e:
         logger.error(f"Failed to initialize agent: {e}")
@@ -70,7 +70,7 @@ async def get_calendar(date: str = Query(...)):
     try:
         # Directly call the tool logic. 
         # Note: Tools return dicts or strings. The logic in get_calendar_events returns a dict.
-        result = get_calender_events(date=date)
+        result = get_calendar_events.invoke(date)
         if isinstance(result, str) and result.startswith("Error"):
              raise HTTPException(status_code=500, detail=result)
         return result
@@ -82,7 +82,7 @@ async def get_calendar(date: str = Query(...)):
 async def get_notion_notes():
     try:
         # Directly call the tool logic.
-        result = get_notion_notes()
+        result = get_notes.invoke({})
         # result is expected to be a list or an error string
         if isinstance(result, str) and result.startswith("Error"):
              raise HTTPException(status_code=500, detail=result)
